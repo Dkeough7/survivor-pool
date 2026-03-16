@@ -314,7 +314,7 @@ const TIPOFF_M = new Date('2026-03-19T12:15:00-04:00');
 const TIPOFF_W = new Date('2026-03-20T11:00:00-04:00');
 
 const MENS_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTjiLW4rBiALDK3YUeIpmTCav-ICm-sP2P20a0nxyQlzxmPEzrTGWy9AgWVE4E0ANY2dKDo_4RhygR5/pub?gid=570643668&single=true&output=csv';
-const WOMENS_CSV_PLACEHOLDER = ''; // User will paste this
+const WOMENS_CSV_PLACEHOLDER = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTjiLW4rBiALDK3YUeIpmTCav-ICm-sP2P20a0nxyQlzxmPEzrTGWy9AgWVE4E0ANY2dKDo_4RhygR5/pub?gid=307876982&single=true&output=csv';
 
 const SEED_MATCHUPS = [
   {matchup:'#1 vs #16',higher:99.3,record:'158-2',risk:'safe'},
@@ -590,6 +590,7 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{btn.addEventListener('click'
 (async function init(){
   loadState();
   if(!state.mens.csvUrl)state.mens.csvUrl=MENS_CSV;
+  if(!state.womens.csvUrl)state.womens.csvUrl=WOMENS_CSV_PLACEHOLDER;
   document.getElementById('csvUrlMens').value=state.mens.csvUrl;
   document.getElementById('csvUrlWomens').value=state.womens.csvUrl||'';
 
