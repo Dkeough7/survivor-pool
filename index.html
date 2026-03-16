@@ -23,6 +23,14 @@
   .refresh-btn.spinning{pointer-events:none;opacity:.6}
   .refresh-row{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:12px;flex-wrap:wrap}
   .auto-refresh-label{font-size:11px;color:var(--text-muted);font-weight:500}
+  .submit-pick-btn{padding:10px 24px;background:var(--accent-orange);border:none;border-radius:10px;color:#fff;font-family:'Barlow',sans-serif;font-size:14px;font-weight:700;text-decoration:none;transition:all .2s;box-shadow:0 4px 12px rgba(212,98,43,.25);letter-spacing:.5px;display:inline-flex;align-items:center;gap:6px}
+  .submit-pick-btn:hover{background:#b8511f;transform:translateY(-2px);box-shadow:0 6px 16px rgba(212,98,43,.35)}
+  .submit-pick-btn.womens{background:var(--accent-purple);box-shadow:0 4px 12px rgba(124,58,237,.25)}
+  .submit-pick-btn.womens:hover{background:#6d28d9;box-shadow:0 6px 16px rgba(124,58,237,.35)}
+  .submit-section{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center;margin:16px 0 0;box-shadow:var(--shadow-md);position:relative;overflow:hidden}
+  .submit-section::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent-orange),var(--accent-purple))}
+  .submit-label{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:var(--text-primary);margin-bottom:12px}
+  .submit-buttons{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
 
   /* ─── BRACKET TOGGLE ─── */
   .bracket-toggle{display:flex;justify-content:center;margin:20px 0 16px;gap:0}
@@ -263,6 +271,16 @@
       <button class="refresh-btn" id="refreshBtn" onclick="manualRefresh()">🔄 Refresh Data</button>
       <span class="auto-refresh-label" id="autoRefreshLabel">Auto-refreshes every 5 min</span>
     </div>
+  </div>
+
+  <!-- SUBMIT YOUR PICKS -->
+  <div class="submit-section">
+    <div class="submit-label">📝 SUBMIT YOUR PICKS TODAY</div>
+    <div class="submit-buttons">
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLScyw0ecVzkWw5eAfQ8LaFHc_jpXQ5_Bghz0zBOZdHBDXpv_qw/viewform?usp=header" target="_blank" class="submit-pick-btn mens">🏀 Men's Pick</a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSeorZUve8hIa0cgj5LnNo4slcAhQEHsQIiOlRD2b2gWfLDDEw/viewform?usp=header" target="_blank" class="submit-pick-btn womens">🏀 Women's Pick</a>
+    </div>
+  </div>
   </div>
 
   <!-- ELIMINATION TICKER -->
@@ -599,6 +617,41 @@ function renderStats(){
   document.getElementById('statCurrentDay').textContent=t?`Day ${B().currentDay}`:'--';
 }
 
+// ═══════════════════════════════════════
+// TEAM COLORS (primary, secondary)
+// ═══════════════════════════════════════
+const TEAM_COLORS={
+  'Duke':['#003087','#fff'],'Siena':['#006747','#ffc72c'],'Ohio State':['#bb0000','#fff'],'TCU':['#4d1979','#fff'],
+  'Michigan':['#00274c','#ffcb05'],'Louisville':['#ad0000','#fff'],'South Florida':['#006747','#cfc493'],
+  'Wisconsin':['#c5050c','#fff'],'High Point':['#330072','#fff'],'Michigan State':['#18453b','#fff'],
+  'ND State':['#006a31','#ffc72c'],'Arkansas':['#9d2235','#fff'],'Hawaii':['#024731','#fff'],
+  'Nebraska':['#d00000','#fff'],'Troy':['#8b2332','#fff'],'North Carolina':['#7bafd4','#13294b'],
+  'VCU':['#000000','#f8b800'],'BYU':['#002e5d','#fff'],'Texas':['#bf5700','#fff'],'NC State':['#cc0000','#fff'],
+  'Gonzaga':['#002967','#c8102e'],'Kennesaw St.':['#fdbb30','#231f20'],'Illinois':['#e04e39','#13294b'],
+  'Penn':['#011f5b','#990000'],'Georgia':['#ba0c2f','#fff'],'Saint Louis':['#003da5','#fff'],
+  'Houston':['#c8102e','#fff'],'Idaho':['#b5985a','#000'],'St. Mary\'s':['#d50032','#00386b'],'St. Mary\'s CA':['#d50032','#00386b'],
+  'Texas A&M':['#500000','#fff'],'Vanderbilt':['#866d4b','#000'],'McNeese State':['#005ca9','#ffc72c'],
+  'Kentucky':['#0033a0','#fff'],'Santa Clara':['#aa182c','#fff'],'Texas Tech':['#cc0000','#000'],
+  'Akron':['#041e42','#a89968'],'Virginia':['#232d4b','#f84c1e'],'Wright State':['#007a33','#ceae61'],
+  'Iowa State':['#c8102e','#f1be48'],'TN State':['#00539f','#fff'],'Alabama':['#9e1b32','#fff'],
+  'Hofstra':['#073982','#ffc72c'],'Tennessee':['#ff8200','#fff'],'Miami OH':['#c3142d','#fff'],'SMU':['#c8102e','#0033a0'],
+  'St John\'s':['#d41b2c','#fff'],"St John's":['#d41b2c','#fff'],'UNI':['#4b116f','#ffc72c'],'Northern Iowa':['#4b116f','#ffc72c'],
+  'Clemson':['#f56600','#522d80'],'Iowa':['#ffcd00','#000'],'Villanova':['#003366','#fff'],
+  'Utah State':['#0f2439','#fff'],'UCLA':['#2774ae','#ffd100'],'UCF':['#000','#ffc904'],
+  'Purdue':['#ceb888','#000'],'Queens NC':['#002d6a','#a89968'],'Kansas':['#0051ba','#e8000d'],
+  'CA Baptist':['#002855','#cf4520'],'Cal Baptist':['#002855','#cf4520'],'Florida':['#0021a5','#fa4616'],
+  'Arizona':['#cc0033','#003366'],'LIU':['#006633','#ffc72c'],'UConn':['#0e1a2e','#fff'],
+  'Furman':['#582c83','#fff'],'Miami':['#005030','#f47321'],'Missouri':['#000','#f1b82d'],
+  'UMBC':['#000','#fdb515'],'Howard':['#003a63','#e51937'],'Prairie View':['#4f2d7f','#ffd700'],'Lehigh':['#653819','#fff'],
+  'Duke ':['#003087','#fff'],'Siena ':['#006747','#ffc72c'],
+};
+
+function getTeamColor(teamStr){
+  // Extract team name from "#1 Duke" format
+  const name=teamStr.replace(/#\d+\s*/,'').trim();
+  return TEAM_COLORS[name]||null;
+}
+
 function renderTable(){
   const thead=document.getElementById('tableHead'),tbody=document.getElementById('tableBody');
   const players=B().players,dates=getDayDates(),rounds=getRoundLabels();
@@ -614,8 +667,24 @@ function renderTable(){
     if(search&&!p.name.toLowerCase().includes(search))continue;
     const status=getPlayerStatus(p);if(currentFilter!=='all'&&status!==currentFilter)continue;
     body+=`<tr class="${status==='eliminated'?'eliminated':''}"><td>${p.name}</td><td><span class="status-badge ${status}"><span class="status-dot ${status}"></span>${status}</span></td>`;
-    for(let d=1;d<=maxDay;d++){const pk=p.picks[`Day ${d}`];if(!pk)body+='<td><span class="pick-cell none">—</span></td>';else{let cls,ic;if(pk.result==='W'){cls='win';ic='✅';}else if(pk.result==='L'){cls='loss';ic='❌';}else{cls='pending';ic='⏳';}body+=`<td><span class="pick-cell ${cls}">${ic} ${pk.team}</span></td>`;}}
+    for(let d=1;d<=maxDay;d++){
+      const pk=p.picks[`Day ${d}`];
+      if(!pk){body+='<td><span class="pick-cell none">—</span></td>';}
+      else{
+        let cls,ic;
+        if(pk.result==='W'){cls='win';ic='✅';}
+        else if(pk.result==='L'){cls='loss';ic='❌';}
+        else{cls='pending';ic='⏳';}
+        const tc=getTeamColor(pk.team);
+        const colorStyle=tc&&cls==='pending'?`style="background:${tc[0]}11;border-color:${tc[0]}33;color:${tc[0]}"`:
+                         tc&&cls==='win'?`style="border-left:3px solid ${tc[0]}"`:
+                         tc&&cls==='loss'?`style="border-left:3px solid ${tc[0]};opacity:.7"`:''
+        body+=`<td><span class="pick-cell ${cls}" ${colorStyle}>${ic} ${pk.team}</span></td>`;
+      }
+    }
     body+='</tr>';}
+  tbody.innerHTML=body||'<tr><td colspan="12" style="text-align:center;padding:40px;color:var(--text-muted)">No players loaded. Check connection.</td></tr>';
+}
   tbody.innerHTML=body||'<tr><td colspan="12" style="text-align:center;padding:40px;color:var(--text-muted)">No players loaded. Check Admin tab.</td></tr>';
 }
 
@@ -1090,11 +1159,6 @@ function startAutoRefresh(){setInterval(silentRefresh,AUTO_REFRESH_MS);setInterv
 // ═══════════════════════════════════════
 // ADMIN
 // ═══════════════════════════════════════
-function saveAdminUrls(){
-  state.mens.csvUrl=document.getElementById('csvUrlMens').value.trim();
-  state.womens.csvUrl=document.getElementById('csvUrlWomens').value.trim();
-  saveState();manualRefresh();
-}
 function exportState(){const b=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=`survivor-pool-${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(u);}
 function importState(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{state={...state,...JSON.parse(ev.target.result)};saveState();renderAll();showToast('✅ Imported');}catch(err){showToast('❌ Invalid file');}};r.readAsText(f);e.target.value='';}
 
