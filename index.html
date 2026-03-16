@@ -392,7 +392,26 @@ async function fetchCSV(url){
 async function fetchBracket(bracket){
   const b=state[bracket];if(!b.csvUrl)return false;
   try{const csv=await fetchCSV(b.csvUrl);const fresh=parseCSVFromSheet(csv);
-    if(fresh.length>0){b.players=fresh;let mx=1;for(const p of fresh)for(let d=1;d<=10;d++)if(p.picks[`Day ${d}`])mx=Math.max(mx,d);b.currentDay=mx;b.lastUpdated=new Date().toISOString();return true;}}catch(e){}
+    if(fresh.length>0){
+      b.players=fresh;
+      // Auto-detect current day: find the latest day that has ANY W or L results
+      // If no results yet, default to Day 1 (tournament hasn't started)
+      let resultsDay=0;
+      let picksDay=1;
+      for(const p of fresh)for(let d=1;d<=10;d++){
+        if(p.picks[`Day ${d}`]){
+          picksDay=Math.max(picksDay,d);
+          if(p.picks[`Day ${d}`].result)resultsDay=Math.max(resultsDay,d);
+        }
+      }
+      // If we have results, current day = latest day with results (or next day if all results are in)
+      // If no results yet, current day = 1 (pre-tournament)
+      if(!b.manualDay){
+        b.currentDay = resultsDay > 0 ? resultsDay : 1;
+      }
+      b.lastUpdated=new Date().toISOString();
+      return true;
+    }}catch(e){}
   return false;
 }
 
