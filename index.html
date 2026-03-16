@@ -163,6 +163,82 @@
 
   footer{text-align:center;padding:28px 0;border-top:1px solid var(--border);margin-top:40px}
   footer p{font-size:12px;color:var(--text-muted)}
+
+  /* ─── GAME CARDS ─── */
+  .games-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px;margin-bottom:28px}
+  .game-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm);transition:transform .2s}
+  .game-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+  .game-card-header{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:var(--bg-warm);border-bottom:1px solid var(--border);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted)}
+  .game-card-header .tv-badge{padding:3px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.5px}
+  .tv-cbs{background:#1a5276;color:#fff}.tv-tbs{background:#e74c3c;color:#fff}.tv-tnt{background:#2c3e50;color:#fff}.tv-trutv{background:#27ae60;color:#fff}
+  .game-card-body{padding:16px}
+  .game-matchup{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .game-team{text-align:center;flex:1}
+  .game-seed{font-family:'Bebas Neue',sans-serif;font-size:28px;line-height:1;color:var(--accent-orange)}
+  .game-name{font-size:13px;font-weight:600;color:var(--text-primary);margin-top:2px}
+  .game-vs{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--text-muted)}
+  .game-card-footer{padding:8px 16px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--text-muted)}
+  .game-pool-picks{font-weight:600;color:var(--accent-orange)}
+
+  /* ─── TOMBSTONES ─── */
+  .tombstone{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:24px;text-align:center;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+  .tombstone::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#64748b,#94a3b8)}
+  .tombstone-skull{font-size:40px;margin-bottom:8px}
+  .tombstone-name{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:var(--text-primary)}
+  .tombstone-dates{font-size:12px;color:var(--text-muted);margin:4px 0}
+  .tombstone-cause{font-size:13px;color:var(--accent-red);font-weight:600;margin-top:6px;padding:6px 12px;background:var(--dead-bg);border:1px solid var(--dead-border);border-radius:8px;display:inline-block}
+  .tombstone-epitaph{font-size:12px;color:var(--text-muted);font-style:italic;margin-top:8px}
+
+  /* ─── BADGES ─── */
+  .badge-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center;box-shadow:var(--shadow-sm);transition:transform .2s}
+  .badge-card:hover{transform:translateY(-2px)}
+  .badge-card.earned{border-color:var(--accent-orange);box-shadow:0 4px 16px rgba(212,98,43,.12)}
+  .badge-card.locked{opacity:.45}
+  .badge-icon{font-size:40px;margin-bottom:8px}
+  .badge-name{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;color:var(--text-primary);margin-bottom:2px}
+  .badge-desc{font-size:12px;color:var(--text-secondary);line-height:1.4}
+  .badge-holder{font-size:12px;font-weight:700;color:var(--accent-orange);margin-top:8px}
+  .badge-locked-label{font-size:11px;color:var(--text-muted);font-weight:600;margin-top:8px}
+
+  /* ─── MARQUEE TICKER ─── */
+  .marquee-wrap{background:var(--dead-bg);border:1px solid var(--dead-border);border-radius:10px;padding:8px 0;margin:16px 0 0;overflow:hidden}
+  .marquee-track{overflow:hidden;white-space:nowrap}
+  .marquee-content{display:inline-block;animation:marquee 30s linear infinite;font-size:13px;font-weight:600;color:var(--accent-red)}
+  .marquee-content span{margin:0 32px}
+  @keyframes marquee{from{transform:translateX(100%)}to{transform:translateX(-100%)}}
+
+  /* ─── H2H ─── */
+  .h2h-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:start}
+  .h2h-player{text-align:center}
+  .h2h-player-name{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:1px;margin-bottom:8px}
+  .h2h-stat-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+  .h2h-stat-label{color:var(--text-muted);font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:1px}
+  .h2h-stat-value{font-weight:700}
+  .h2h-vs{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--text-muted);padding-top:40px}
+  .h2h-winner{color:var(--accent-green)}.h2h-loser{color:var(--accent-red)}
+
+  /* ─── STREAK TABLE ─── */
+  .streak-row{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--border)}
+  .streak-row:hover{background:var(--bg-card-hover)}
+  .streak-name{font-weight:600;min-width:140px}
+  .streak-dots{display:flex;gap:4px;flex:1}
+  .streak-dot{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+  .streak-dot.w{background:var(--alive-bg);color:var(--accent-green);border:1px solid var(--alive-border)}
+  .streak-dot.l{background:var(--dead-bg);color:var(--accent-red);border:1px solid var(--dead-border)}
+  .streak-dot.p{background:var(--pending-bg);color:var(--accent-yellow);border:1px solid var(--pending-border)}
+  .streak-info{font-size:12px;color:var(--text-muted);min-width:80px;text-align:right}
+  .danger-item{display:flex;align-items:center;gap:12px;padding:12px;background:var(--dead-bg);border:1px solid var(--dead-border);border-radius:10px;margin-bottom:8px}
+  .danger-icon{font-size:24px}
+  .danger-text{flex:1;font-size:13px;color:var(--text-primary)}
+  .danger-text strong{color:var(--accent-red)}
+  .danger-pct{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--accent-red)}
+
+  /* ─── HALL OF FAME ─── */
+  .hof-card{background:var(--bg-card);border:2px solid var(--accent-orange);border-radius:14px;padding:24px;text-align:center;box-shadow:0 4px 16px rgba(212,98,43,.1);position:relative;overflow:hidden}
+  .hof-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#f59e0b,var(--accent-orange),#f59e0b)}
+  .hof-year{font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--accent-orange);line-height:1}
+  .hof-name{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:var(--text-primary);margin-top:4px}
+  .hof-trophy{font-size:40px;margin-bottom:8px}
   @media(max-width:768px){.charts-grid{grid-template-columns:1fr}.stats-row{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:44px}.bar-label{min-width:75px;font-size:11px}.countdown-timer{gap:8px}.cd-value{font-size:36px}.bracket-btn{padding:10px 20px;font-size:18px}}
   .loading-overlay{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity .5s}
   .loading-overlay.hidden{opacity:0;pointer-events:none}
@@ -187,6 +263,11 @@
       <button class="refresh-btn" id="refreshBtn" onclick="manualRefresh()">🔄 Refresh Data</button>
       <span class="auto-refresh-label" id="autoRefreshLabel">Auto-refreshes every 5 min</span>
     </div>
+  </div>
+
+  <!-- ELIMINATION TICKER -->
+  <div class="marquee-wrap" id="marqueeWrap" style="display:none">
+    <div class="marquee-track"><div class="marquee-content" id="marqueeContent"></div></div>
   </div>
 
   <!-- BRACKET TOGGLE -->
@@ -229,11 +310,15 @@
   <!-- TABS -->
   <div class="tab-nav">
     <button class="tab-btn active" data-tab="picks">📋 Picks</button>
+    <button class="tab-btn" data-tab="games">🎰 Games</button>
     <button class="tab-btn" data-tab="charts">📊 Charts</button>
+    <button class="tab-btn" data-tab="h2h">⚔️ H2H</button>
+    <button class="tab-btn" data-tab="graveyard">💀 Graveyard</button>
+    <button class="tab-btn" data-tab="badges">🏅 Badges</button>
     <button class="tab-btn" data-tab="odds">🎯 Seed Intel</button>
+    <button class="tab-btn" data-tab="hall">🏆 Hall of Fame</button>
     <button class="tab-btn" data-tab="facts">🏀 Fun Facts</button>
     <button class="tab-btn" data-tab="rules">📖 Rules</button>
-    <button class="tab-btn" data-tab="admin">⚙️ Admin</button>
   </div>
 
   <div class="tab-content active" id="tab-picks">
@@ -247,6 +332,12 @@
     <div class="picks-table-wrap"><table class="picks-table"><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
   </div>
 
+  <!-- TAB: GAMES -->
+  <div class="tab-content" id="tab-games">
+    <div id="gamesContainer"></div>
+  </div>
+
+  <!-- TAB: CHARTS -->
   <div class="tab-content" id="tab-charts">
     <div class="charts-grid">
       <div class="chart-card"><h3>🔥 Most Popular Picks Today</h3><div class="bar-chart" id="popularPicksChart"></div></div>
@@ -271,6 +362,23 @@
 
   <div class="tab-content" id="tab-facts"><div class="facts-grid" id="factsGrid"></div></div>
 
+  <!-- TAB: GRAVEYARD -->
+  <div class="tab-content" id="tab-graveyard">
+    <div style="text-align:center;margin-bottom:20px"><h2 style="font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:2px;color:var(--text-primary)">💀 ELIMINATION GRAVEYARD 💀</h2><p style="color:var(--text-muted);font-size:14px">Rest in peace to those who dared to dream.</p></div>
+    <div class="facts-grid" id="graveyardGrid"></div>
+    <div id="graveyardEmpty" style="text-align:center;padding:60px 20px;color:var(--text-muted)">
+      <div style="font-size:64px;margin-bottom:12px">🏀</div>
+      <div style="font-size:16px;font-weight:600">No casualties yet!</div>
+      <div style="font-size:13px;margin-top:4px">The graveyard awaits its first victim...</div>
+    </div>
+  </div>
+
+  <!-- TAB: BADGES -->
+  <div class="tab-content" id="tab-badges">
+    <div style="text-align:center;margin-bottom:20px"><h2 style="font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:2px;color:var(--text-primary)">🏅 ACHIEVEMENTS & BADGES 🏅</h2><p style="color:var(--text-muted);font-size:14px">Earned through picks, survival, and sheer madness.</p></div>
+    <div class="facts-grid" id="badgesGrid"></div>
+  </div>
+
   <div class="tab-content" id="tab-rules">
     <div class="rules-section">
       <h3>🏀 How Survivor Pool Works</h3>
@@ -285,17 +393,35 @@
     </div>
   </div>
 
-  <div class="tab-content" id="tab-admin">
-    <div class="admin-panel">
-      <h3>📡 Google Sheets CSV URLs</h3>
-      <p style="color:var(--text-secondary);font-size:13px;margin-bottom:14px">Publish each tab as CSV: <code style="background:var(--bg-warm);padding:2px 6px;border-radius:4px;font-size:12px;color:var(--accent-orange)">File → Share → Publish to web</code> → select tab → CSV → Publish</p>
-      <div class="admin-grid">
-        <div class="admin-field"><label>Men's Survivors CSV URL</label><input type="text" id="csvUrlMens"></div>
-        <div class="admin-field"><label>Women's Survivors CSV URL</label><input type="text" id="csvUrlWomens"></div>
+  <!-- TAB: HEAD TO HEAD -->
+  <div class="tab-content" id="tab-h2h">
+    <div class="chart-card" style="margin-bottom:20px">
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;text-align:center;margin-bottom:16px">⚔️ HEAD-TO-HEAD COMPARISON</h2>
+      <div class="admin-grid" style="margin-bottom:20px">
+        <div class="admin-field"><label>Player 1</label><select id="h2hPlayer1" onchange="renderH2H()"></select></div>
+        <div class="admin-field"><label>Player 2</label><select id="h2hPlayer2" onchange="renderH2H()"></select></div>
       </div>
-      <button class="btn-primary" onclick="saveAdminUrls()">💾 Save & Reload</button>
+      <div id="h2hResult"></div>
     </div>
-    <div class="admin-panel"><h3>Backup</h3><button class="btn-primary" onclick="exportState()">💾 Export</button><button class="btn-secondary" onclick="document.getElementById('importFile').click()">📂 Import</button><input type="file" id="importFile" accept=".json" style="display:none" onchange="importState(event)"></div>
+    <div class="chart-card" style="margin-bottom:20px">
+      <h3>🏃 Streak Tracker</h3>
+      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px">Current win streaks and risk scores for all active players.</p>
+      <div id="streakTracker"></div>
+    </div>
+    <div class="chart-card">
+      <h3>🔮 Danger Zone</h3>
+      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px">Players whose current pick is statistically risky based on historical seed matchup data.</p>
+      <div id="dangerZone"></div>
+    </div>
+  </div>
+
+  <!-- TAB: HALL OF FAME -->
+  <div class="tab-content" id="tab-hall">
+    <div style="text-align:center;margin-bottom:24px">
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:2px">🏆 HALL OF FAME 🏆</h2>
+      <p style="color:var(--text-muted);font-size:14px">Past Survivor Pool Champions</p>
+    </div>
+    <div id="hallOfFame" class="facts-grid"></div>
   </div>
 
   <footer><p>🏀 2026 NCAA March Madness Survivor Pool — May the best survivor win!</p></footer>
@@ -454,7 +580,7 @@ function nextTrivia(){triviaIdx=(triviaIdx+1)%TRIVIA.length;showTrivia();}
 function getDayDates(){return activeBracket==='mens'?DAY_DATES_M:DAY_DATES_W;}
 function getRoundLabels(){return ROUND_LABELS_M;} // same structure for both
 
-function renderAll(){renderStats();renderTable();renderCharts();renderSeedIntel();renderFacts();updateTimestamp();updateCountdown();}
+function renderAll(){renderStats();renderTable();renderCharts();renderSeedIntel();renderFacts();renderGames();renderGraveyard();renderBadges();renderH2HDropdowns();renderStreakTracker();renderDangerZone();renderMarquee();renderHallOfFame();updateTimestamp();updateCountdown();}
 
 function updateTimestamp(){
   const el=document.getElementById('lastUpdated');const b=B();
@@ -567,6 +693,380 @@ function renderFacts(){
 }
 
 // ═══════════════════════════════════════
+// DAILY GAME CARDS
+// ═══════════════════════════════════════
+const GAMES_BY_DAY = {
+  mens: {
+    1: [
+      {h:'#8 Ohio State',a:'#9 TCU',time:'12:15 PM',tv:'CBS',loc:'Greenville'},
+      {h:'#6 Louisville',a:'#11 South Florida',time:'1:30 PM',tv:'TNT',loc:'Buffalo'},
+      {h:'#5 Wisconsin',a:'#12 High Point',time:'1:50 PM',tv:'TBS',loc:'Portland'},
+      {h:'#1 Duke',a:'#16 Siena',time:'2:50 PM',tv:'CBS',loc:'Greenville'},
+      {h:'#5 Vanderbilt',a:'#12 McNeese State',time:'3:15 PM',tv:'truTV',loc:'Oklahoma City'},
+      {h:'#3 Michigan State',a:'#14 ND State',time:'4:05 PM',tv:'TNT',loc:'Buffalo'},
+      {h:'#4 Arkansas',a:'#13 Hawaii',time:'4:25 PM',tv:'TBS',loc:'Portland'},
+      {h:'#4 Nebraska',a:'#13 Troy',time:'5:50 PM',tv:'truTV',loc:'Oklahoma City'},
+      {h:'#6 North Carolina',a:'#11 VCU',time:'6:50 PM',tv:'TNT',loc:'Buffalo'},
+      {h:'#1 Michigan',a:'#16 UMBC/Howard',time:'7:10 PM',tv:'CBS',loc:'Buffalo'},
+      {h:'#6 BYU',a:'#11 Texas/NC State',time:'7:25 PM',tv:'TBS',loc:'Portland'},
+      {h:'#7 St. Mary\'s',a:'#10 Texas A&M',time:'7:35 PM',tv:'truTV',loc:'Oklahoma City'},
+      {h:'#3 Illinois',a:'#14 Penn',time:'9:25 PM',tv:'TNT',loc:'Buffalo'},
+      {h:'#8 Georgia',a:'#9 Saint Louis',time:'9:45 PM',tv:'CBS',loc:'Buffalo'},
+      {h:'#3 Gonzaga',a:'#14 Kennesaw St.',time:'10:00 PM',tv:'TBS',loc:'Portland'},
+      {h:'#2 Houston',a:'#15 Idaho',time:'10:10 PM',tv:'truTV',loc:'Oklahoma City'},
+    ],
+    2: [
+      {h:'#7 Kentucky',a:'#10 Santa Clara',time:'12:15 PM',tv:'CBS',loc:'St. Louis'},
+      {h:'#5 Texas Tech',a:'#12 Akron',time:'12:40 PM',tv:'truTV',loc:'Tampa'},
+      {h:'#3 Virginia',a:'#14 Wright State',time:'1:50 PM',tv:'TBS',loc:'Philadelphia'},
+      {h:'#2 Iowa State',a:'#15 TN State',time:'2:50 PM',tv:'CBS',loc:'St. Louis'},
+      {h:'#4 Alabama',a:'#13 Hofstra',time:'3:15 PM',tv:'truTV',loc:'Tampa'},
+      {h:'#6 Tennessee',a:'#11 Miami OH/SMU',time:'4:25 PM',tv:'TBS',loc:'Philadelphia'},
+      {h:'#5 St John\'s',a:'#12 UNI',time:'5:50 PM',tv:'truTV',loc:'Tampa'},
+      {h:'#8 Clemson',a:'#9 Iowa',time:'6:50 PM',tv:'TNT',loc:'Tampa'},
+      {h:'#8 Villanova',a:'#9 Utah State',time:'7:10 PM',tv:'CBS',loc:'San Diego'},
+      {h:'#7 UCLA',a:'#10 UCF',time:'7:25 PM',tv:'TBS',loc:'Philadelphia'},
+      {h:'#2 Purdue',a:'#15 Queens NC',time:'7:35 PM',tv:'truTV',loc:'St. Louis'},
+      {h:'#4 Kansas',a:'#13 CA Baptist',time:'9:00 PM',tv:'CBS',loc:'San Diego'},
+      {h:'#1 Florida',a:'#16 Prairie View/Lehigh',time:'9:25 PM',tv:'TNT',loc:'Tampa'},
+      {h:'#1 Arizona',a:'#16 LIU',time:'9:45 PM',tv:'CBS',loc:'San Diego'},
+      {h:'#2 UConn',a:'#15 Furman',time:'10:00 PM',tv:'TBS',loc:'Philadelphia'},
+      {h:'#7 Miami',a:'#10 Missouri',time:'10:10 PM',tv:'truTV',loc:'St. Louis'},
+    ]
+  }
+};
+
+function renderGames(){
+  const c=document.getElementById('gamesContainer');
+  const dayGames=(GAMES_BY_DAY[activeBracket]||{})[B().currentDay];
+  if(!dayGames||!dayGames.length){
+    c.innerHTML=`<div style="text-align:center;padding:40px;color:var(--text-muted)"><div style="font-size:48px;margin-bottom:12px">📺</div><div style="font-size:16px;font-weight:600">${activeBracket==='womens'?"Women's game schedule coming soon!":"No games scheduled for this day yet."}</div><div style="font-size:13px;margin-top:4px">Check back as the tournament progresses.</div></div>`;
+    return;
+  }
+  // Count how many pool members picked each team today
+  const pickCounts={};
+  for(const p of B().players){const pk=p.picks[`Day ${B().currentDay}`];if(pk)pickCounts[pk.team]=(pickCounts[pk.team]||0)+1;}
+  
+  const tvClass={CBS:'tv-cbs',TBS:'tv-tbs',TNT:'tv-tnt',truTV:'tv-trutv'};
+  c.innerHTML=`<div style="text-align:center;margin-bottom:16px"><h2 style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px">📺 DAY ${B().currentDay} MATCHUPS</h2><p style="color:var(--text-muted);font-size:13px">${getDayDates()[B().currentDay-1]} · ${getRoundLabels()[B().currentDay-1]}</p></div><div class="games-grid">${dayGames.map(g=>{
+    const hSeed=g.h.match(/#(\d+)/)?.[1]||'';const aSeed=g.a.match(/#(\d+)/)?.[1]||'';
+    const hName=g.h.replace(/#\d+\s*/,'');const aName=g.a.replace(/#\d+\s*/,'');
+    const hPicks=pickCounts[g.h]||0;const aPicks=pickCounts[g.a]||0;
+    const totalPicks=hPicks+aPicks;
+    return `<div class="game-card">
+      <div class="game-card-header"><span>🕐 ${g.time} ET · ${g.loc}</span><span class="${tvClass[g.tv]||''} tv-badge">${g.tv}</span></div>
+      <div class="game-card-body"><div class="game-matchup">
+        <div class="game-team"><div class="game-seed">${hSeed}</div><div class="game-name">${hName}</div></div>
+        <div class="game-vs">VS</div>
+        <div class="game-team"><div class="game-seed">${aSeed}</div><div class="game-name">${aName}</div></div>
+      </div></div>
+      <div class="game-card-footer"><span>${totalPicks>0?`<span class="game-pool-picks">${totalPicks} pool pick${totalPicks>1?'s':''}</span> in this game`:'No pool picks in this game'}</span>${totalPicks>0?`<span>${hPicks} ${hName} · ${aPicks} ${aName}</span>`:''}</div>
+    </div>`;}).join('')}</div>`;
+}
+
+// ═══════════════════════════════════════
+// ELIMINATION GRAVEYARD
+// ═══════════════════════════════════════
+const EPITAPHS = [
+  "They picked with their heart, not their head.",
+  "Flew too close to the sun.",
+  "The madness was not kind.",
+  "Bracketology claimed another victim.",
+  "Gone but never forgotten... until next year.",
+  "Should've picked the chalk.",
+  "Upset city, population: them.",
+  "Their Cinderella story ended at midnight.",
+  "They zigged when they should've zagged.",
+  "The basketball gods had other plans.",
+  "Another one bites the hardwood.",
+  "Press F to pay respects.",
+  "At least they went out swinging.",
+  "The chaos was not their friend.",
+];
+
+function renderGraveyard(){
+  const grid=document.getElementById('graveyardGrid');
+  const empty=document.getElementById('graveyardEmpty');
+  const eliminated=B().players.filter(p=>getPlayerStatus(p)==='eliminated');
+  
+  if(!eliminated.length){grid.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  
+  grid.innerHTML=eliminated.map(p=>{
+    // Find the losing pick
+    let losingPick=null,losingDay='';
+    for(const[day,pk]of Object.entries(p.picks)){if(pk.result==='L'){losingPick=pk;losingDay=day;break;}}
+    const dayNum=parseInt(losingDay.replace('Day ',''))||1;
+    const survived=dayNum-1;
+    const epitaph=EPITAPHS[Math.abs(p.name.split('').reduce((a,c)=>a+c.charCodeAt(0),0))%EPITAPHS.length];
+    
+    return `<div class="tombstone">
+      <div class="tombstone-skull">🪦</div>
+      <div class="tombstone-name">${p.name}</div>
+      <div class="tombstone-dates">Survived ${survived} day${survived!==1?'s':''}</div>
+      ${losingPick?`<div class="tombstone-cause">☠️ Killed by: ${losingPick.team} (${losingDay})</div>`:''}
+      <div class="tombstone-epitaph">"${epitaph}"</div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════
+// ACHIEVEMENTS & BADGES
+// ═══════════════════════════════════════
+function renderBadges(){
+  const c=document.getElementById('badgesGrid');
+  const players=B().players;
+  if(!players.length){c.innerHTML='<div class="badge-card locked"><div class="badge-icon">🔒</div><div class="badge-name">No Data</div><div class="badge-desc">Connect your sheet to unlock badges.</div></div>';return;}
+  
+  const badges=[];
+  
+  // 🎯 Chalk Walk — all picks seeds 1-3
+  const chalkWalkers=players.filter(p=>{const pks=Object.values(p.picks);return pks.length>0&&pks.every(pk=>{const m=pk.team.match(/#(\d+)/);return m&&parseInt(m[1])<=3;});});
+  badges.push({icon:'🎯',name:'Chalk Walk',desc:'Every pick is a 1, 2, or 3 seed',holders:chalkWalkers.map(p=>p.name),earned:chalkWalkers.length>0});
+  
+  // 🎲 Upset Artist — picked a seed 10+ and it won
+  const upsetArtists=[];
+  for(const p of players)for(const pk of Object.values(p.picks)){const m=pk.team.match(/#(\d+)/);if(m&&parseInt(m[1])>=10&&pk.result==='W'&&!upsetArtists.includes(p.name))upsetArtists.push(p.name);}
+  badges.push({icon:'🎲',name:'Upset Artist',desc:'Picked a 10+ seed and they won',holders:upsetArtists,earned:upsetArtists.length>0});
+  
+  // 🐺 Lone Wolf — only person to pick a specific team
+  const loneWolves=[];
+  for(let d=1;d<=10;d++){const dk=`Day ${d}`,tc={};for(const p of players){const pk=p.picks[dk];if(pk){if(!tc[pk.team])tc[pk.team]=[];tc[pk.team].push(p.name);}}
+    for(const[,names]of Object.entries(tc))if(names.length===1&&!loneWolves.includes(names[0]))loneWolves.push(names[0]);}
+  badges.push({icon:'🐺',name:'Lone Wolf',desc:'Only person to pick a team on a given day',holders:loneWolves.slice(0,5),earned:loneWolves.length>0});
+  
+  // 🔥 Hot Streak — 3+ consecutive wins
+  const streakers=[];
+  for(const p of players){let streak=0;for(let d=1;d<=10;d++){const pk=p.picks[`Day ${d}`];if(pk&&pk.result==='W')streak++;else break;}if(streak>=3)streakers.push({name:p.name,streak});}
+  streakers.sort((a,b)=>b.streak-a.streak);
+  badges.push({icon:'🔥',name:'Hot Streak',desc:'3 or more consecutive wins',holders:streakers.map(s=>`${s.name} (${s.streak})`),earned:streakers.length>0});
+  
+  // 🛡️ Iron Survivor — alive with most days survived
+  const survivors=players.filter(p=>getPlayerStatus(p)==='alive'||getPlayerStatus(p)==='pending');
+  let maxDays=0;for(const p of survivors){const wins=Object.values(p.picks).filter(pk=>pk.result==='W').length;maxDays=Math.max(maxDays,wins);}
+  const ironSurvivors=survivors.filter(p=>Object.values(p.picks).filter(pk=>pk.result==='W').length===maxDays&&maxDays>0);
+  badges.push({icon:'🛡️',name:'Iron Survivor',desc:`Most wins survived (${maxDays})`,holders:ironSurvivors.map(p=>p.name),earned:ironSurvivors.length>0&&maxDays>0});
+  
+  // 💀 First Blood — first person eliminated
+  const eliminated=players.filter(p=>getPlayerStatus(p)==='eliminated');
+  let firstBlood=[];
+  if(eliminated.length>0){
+    let minDay=99;for(const p of eliminated)for(const[day,pk]of Object.entries(p.picks)){if(pk.result==='L'){const d=parseInt(day.replace('Day ',''));if(d<minDay)minDay=d;}}
+    firstBlood=eliminated.filter(p=>{for(const[day,pk]of Object.entries(p.picks)){if(pk.result==='L'&&parseInt(day.replace('Day ',''))===minDay)return true;}return false;}).map(p=>p.name);
+  }
+  badges.push({icon:'💀',name:'First Blood',desc:'First player eliminated',holders:firstBlood,earned:firstBlood.length>0});
+  
+  // 🏆 Last One Standing — to be earned
+  const aliveCount=players.filter(p=>getPlayerStatus(p)==='alive').length;
+  badges.push({icon:'🏆',name:'Last One Standing',desc:'The final survivor wins it all',holders:aliveCount===1?players.filter(p=>getPlayerStatus(p)==='alive').map(p=>p.name):[],earned:aliveCount===1});
+  
+  // 🎰 Gambler — highest average seed picked
+  let maxAvg=0,gambler='';
+  for(const p of players){const pks=Object.values(p.picks);if(pks.length<2)continue;const avg=pks.reduce((s,pk)=>{const m=pk.team.match(/#(\d+)/);return s+(m?parseInt(m[1]):0);},0)/pks.length;if(avg>maxAvg){maxAvg=avg;gambler=p.name;}}
+  badges.push({icon:'🎰',name:'Degen Gambler',desc:`Highest average seed picked (${maxAvg.toFixed(1)})`,holders:gambler?[gambler]:[],earned:!!gambler&&maxAvg>=7});
+  
+  // 🤝 Hive Mind — part of the biggest same-pick group
+  let biggestGroup=[],biggestTeam='';
+  for(let d=1;d<=10;d++){const dk=`Day ${d}`,tc={};for(const p of players){const pk=p.picks[dk];if(pk){if(!tc[pk.team])tc[pk.team]=[];tc[pk.team].push(p.name);}}
+    for(const[team,names]of Object.entries(tc))if(names.length>biggestGroup.length){biggestGroup=names;biggestTeam=team;}}
+  badges.push({icon:'🤝',name:'Hive Mind',desc:`Part of the biggest group pick${biggestTeam?' ('+biggestTeam+')':''}`,holders:biggestGroup.length>2?[`${biggestGroup.length} players`]:biggestGroup,earned:biggestGroup.length>=3});
+  
+  c.innerHTML=badges.map(b=>`<div class="badge-card ${b.earned?'earned':'locked'}">
+    <div class="badge-icon">${b.earned?b.icon:'🔒'}</div>
+    <div class="badge-name">${b.name}</div>
+    <div class="badge-desc">${b.desc}</div>
+    ${b.earned&&b.holders.length?`<div class="badge-holder">${b.holders.slice(0,3).join(', ')}${b.holders.length>3?' +' +(b.holders.length-3)+' more':''}</div>`:''}
+    ${!b.earned?'<div class="badge-locked-label">🔒 Not yet earned</div>':''}
+  </div>`).join('');
+}
+
+// ═══════════════════════════════════════
+// HEAD-TO-HEAD COMPARISON
+// ═══════════════════════════════════════
+function renderH2HDropdowns(){
+  const players=B().players;if(!players.length)return;
+  const opts=players.map((p,i)=>`<option value="${i}">${p.name}</option>`).join('');
+  const s1=document.getElementById('h2hPlayer1'),s2=document.getElementById('h2hPlayer2');
+  const v1=s1.value,v2=s2.value;
+  s1.innerHTML=opts;s2.innerHTML=opts;
+  s1.value=v1||'0';s2.value=v2||(players.length>1?'1':'0');
+}
+
+function renderH2H(){
+  const c=document.getElementById('h2hResult');const players=B().players;if(!players.length){c.innerHTML='';return;}
+  const p1=players[document.getElementById('h2hPlayer1').value||0];
+  const p2=players[document.getElementById('h2hPlayer2').value||1];
+  if(!p1||!p2){c.innerHTML='';return;}
+
+  function getStats(p){
+    const picks=Object.values(p.picks);
+    const wins=picks.filter(pk=>pk.result==='W').length;
+    const losses=picks.filter(pk=>pk.result==='L').length;
+    const avgSeed=picks.length?picks.reduce((s,pk)=>{const m=pk.team.match(/#(\d+)/);return s+(m?parseInt(m[1]):0);},0)/picks.length:0;
+    const riskiest=picks.reduce((max,pk)=>{const m=pk.team.match(/#(\d+)/);const s=m?parseInt(m[1]):0;return s>max?s:max;},0);
+    const safest=picks.reduce((min,pk)=>{const m=pk.team.match(/#(\d+)/);const s=m?parseInt(m[1]):16;return s<min?s:min;},16);
+    const usedTeams=picks.map(pk=>pk.team);
+    return {wins,losses,total:picks.length,avgSeed,riskiest,safest,status:getPlayerStatus(p),usedTeams};
+  }
+
+  const s1=getStats(p1),s2=getStats(p2);
+  const rows=[
+    ['Status',`<span class="status-badge ${s1.status}"><span class="status-dot ${s1.status}"></span>${s1.status}</span>`,`<span class="status-badge ${s2.status}"><span class="status-dot ${s2.status}"></span>${s2.status}</span>`],
+    ['Wins',s1.wins,s2.wins],['Losses',s1.losses,s2.losses],
+    ['Avg Seed',s1.avgSeed.toFixed(1),s2.avgSeed.toFixed(1)],
+    ['Riskiest Pick',`#${s1.riskiest} seed`,`#${s2.riskiest} seed`],
+    ['Safest Pick',`#${s1.safest} seed`,`#${s2.safest} seed`],
+    ['Total Picks',s1.total,s2.total],
+  ];
+
+  c.innerHTML=`<div class="h2h-grid">
+    <div class="h2h-player"><div class="h2h-player-name">${p1.name}</div>
+      ${rows.map(r=>`<div class="h2h-stat-row"><span class="h2h-stat-value">${r[1]}</span><span class="h2h-stat-label">${r[0]}</span></div>`).join('')}
+      <div style="margin-top:12px;font-size:12px;color:var(--text-muted)"><strong>Teams used:</strong> ${s1.usedTeams.join(', ')||'None'}</div>
+    </div>
+    <div class="h2h-vs">VS</div>
+    <div class="h2h-player"><div class="h2h-player-name">${p2.name}</div>
+      ${rows.map(r=>`<div class="h2h-stat-row"><span class="h2h-stat-label">${r[0]}</span><span class="h2h-stat-value">${r[2]}</span></div>`).join('')}
+      <div style="margin-top:12px;font-size:12px;color:var(--text-muted)"><strong>Teams used:</strong> ${s2.usedTeams.join(', ')||'None'}</div>
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════
+// STREAK TRACKER
+// ═══════════════════════════════════════
+function renderStreakTracker(){
+  const c=document.getElementById('streakTracker');const players=B().players;
+  if(!players.length){c.innerHTML='<p style="color:var(--text-muted);text-align:center;padding:20px">No data</p>';return;}
+
+  const playerStreaks=players.map(p=>{
+    let streak=0;const results=[];
+    for(let d=1;d<=10;d++){const pk=p.picks[`Day ${d}`];if(!pk)break;
+      results.push(pk.result==='W'?'w':pk.result==='L'?'l':'p');
+      if(pk.result==='W')streak++;else if(pk.result==='L'){streak=0;break;}}
+    const avgSeed=Object.values(p.picks).length?Object.values(p.picks).reduce((s,pk)=>{const m=pk.team.match(/#(\d+)/);return s+(m?parseInt(m[1]):0);},0)/Object.values(p.picks).length:0;
+    return {name:p.name,streak,results,status:getPlayerStatus(p),avgSeed};
+  }).filter(p=>p.results.length>0).sort((a,b)=>b.streak-a.streak||a.avgSeed-b.avgSeed);
+
+  c.innerHTML=playerStreaks.length?playerStreaks.map(p=>`<div class="streak-row">
+    <div class="streak-name">${p.name} ${p.status==='eliminated'?'💀':''}</div>
+    <div class="streak-dots">${p.results.map(r=>`<div class="streak-dot ${r}">${r==='w'?'W':r==='l'?'L':'?'}</div>`).join('')}</div>
+    <div class="streak-info">${p.streak>0?`🔥 ${p.streak} win${p.streak>1?'s':''}`:p.status==='eliminated'?'☠️ Out':'⏳'}</div>
+  </div>`).join(''):'<p style="color:var(--text-muted);text-align:center;padding:20px">No results yet</p>';
+}
+
+// ═══════════════════════════════════════
+// DANGER ZONE ALERTS
+// ═══════════════════════════════════════
+const SEED_WIN_RATES={'1':99.3,'2':93.1,'3':85.0,'4':79.3,'5':64.3,'6':62.9,'7':60.7,'8':49.3,'9':50.7,'10':39.3,'11':37.1,'12':35.7,'13':20.7,'14':15.0,'15':6.9,'16':0.7};
+
+function renderDangerZone(){
+  const c=document.getElementById('dangerZone');const players=B().players;const dk=`Day ${B().currentDay}`;
+  const dangers=[];
+  for(const p of players){
+    if(getPlayerStatus(p)==='eliminated')continue;
+    const pk=p.picks[dk];if(!pk||pk.result)continue;
+    const seedMatch=pk.team.match(/#(\d+)/);if(!seedMatch)continue;
+    const seed=seedMatch[1];const winRate=SEED_WIN_RATES[seed];
+    if(winRate!==undefined&&winRate<75){
+      dangers.push({name:p.name,team:pk.team,seed:parseInt(seed),winRate});
+    }
+  }
+  dangers.sort((a,b)=>a.winRate-b.winRate);
+
+  if(!dangers.length){c.innerHTML='<div style="text-align:center;padding:30px;color:var(--text-muted)"><div style="font-size:40px;margin-bottom:8px">✅</div><div style="font-size:14px;font-weight:600">No risky picks today!</div><div style="font-size:12px;margin-top:4px">Everyone is playing it relatively safe.</div></div>';return;}
+
+  c.innerHTML=dangers.map(d=>{
+    const level=d.winRate<50?'🚨':d.winRate<65?'⚠️':'😬';
+    return `<div class="danger-item">
+      <div class="danger-icon">${level}</div>
+      <div class="danger-text"><strong>${d.name}</strong> picked ${d.team} — historically <strong>#${d.seed} seeds only win ${d.winRate}%</strong> of the time</div>
+      <div class="danger-pct">${d.winRate}%</div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════
+// MARQUEE ELIMINATION TICKER
+// ═══════════════════════════════════════
+function renderMarquee(){
+  const wrap=document.getElementById('marqueeWrap');
+  const content=document.getElementById('marqueeContent');
+  const eliminated=B().players.filter(p=>getPlayerStatus(p)==='eliminated');
+  if(!eliminated.length){wrap.style.display='none';return;}
+  wrap.style.display='block';
+  const items=eliminated.map(p=>{
+    let cause='';for(const[day,pk]of Object.entries(p.picks)){if(pk.result==='L'){cause=`${pk.team} (${day})`;break;}}
+    return `<span>💀 ${p.name} eliminated by ${cause}</span>`;
+  });
+  // Duplicate for seamless scroll
+  content.innerHTML=items.join('')+items.join('');
+}
+
+// ═══════════════════════════════════════
+// HALL OF FAME (Past Winners)
+// ═══════════════════════════════════════
+const PAST_WINNERS = {
+  mens: [
+    {year:2025,name:'Andrew Nolte'},
+    {year:2024,name:'Cassie Murray'},
+    {year:2023,name:'Lori Bjerke'},
+    {year:2022,name:'Lori Bjerke'},
+    {year:2021,name:'Courtney Snyder'},
+    {year:2020,name:'Melody Sweeney'},
+    {year:2019,name:'Melody Sweeney'},
+    {year:2018,name:'Danny Keough'},
+    {year:2017,name:'Jason Seltzer'},
+    {year:2016,name:'Danny Keough'},
+  ],
+  womens: [
+    {year:2025,name:'Conner Spetz'},
+    {year:2024,name:'Cassie Murray'},
+  ]
+};
+
+function renderHallOfFame(){
+  const c=document.getElementById('hallOfFame');
+  const winners=PAST_WINNERS[activeBracket]||[];
+  const label=activeBracket==='mens'?"Men's":"Women's";
+  
+  // Count championships per person
+  const champCounts={};
+  for(const w of winners) champCounts[w.name]=(champCounts[w.name]||0)+1;
+  
+  let html=winners.map(w=>{
+    const rings=champCounts[w.name]||1;
+    const multiTag=rings>1?`<div style="font-size:11px;color:var(--accent-orange);font-weight:700;margin-top:4px">${'🏆'.repeat(rings)} ${rings}x Champion</div>`:'';
+    return `<div class="hof-card">
+      <div class="hof-trophy">🏆</div>
+      <div class="hof-year">${w.year}</div>
+      <div class="hof-name">${w.name}</div>
+      ${multiTag}
+    </div>`;
+  }).join('');
+  
+  // Add the 2026 mystery card
+  html+=`<div class="hof-card" style="border-style:dashed;border-color:var(--accent-orange);opacity:.6">
+    <div class="hof-trophy">👑</div>
+    <div class="hof-year">2026</div>
+    <div class="hof-name">???</div>
+    <div style="font-size:12px;color:var(--text-muted);margin-top:4px">Who will be crowned?</div>
+  </div>`;
+  
+  // Dynasty tracker
+  const dynasties=Object.entries(champCounts).filter(([,n])=>n>1).sort((a,b)=>b[1]-a[1]);
+  if(dynasties.length){
+    html+=`<div style="grid-column:1/-1;margin-top:12px"><div class="chart-card"><h3>👑 ${label} Dynasties</h3>
+      <div class="bar-chart">${dynasties.map(([name,count],i)=>{
+        const colors=['orange','purple','blue','green'];
+        return `<div class="bar-row"><div class="bar-label">${name}</div><div class="bar-track"><div class="bar-fill ${colors[i%4]}" style="width:${(count/dynasties[0][1])*100}%">${'🏆'.repeat(count)} ${count} title${count>1?'s':''}</div></div></div>`;
+      }).join('')}</div></div></div>`;
+  }
+  
+  c.innerHTML=html;
+}
+
+// ═══════════════════════════════════════
 // REFRESH
 // ═══════════════════════════════════════
 function showToast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000);}
@@ -610,8 +1110,6 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{btn.addEventListener('click'
   loadState();
   if(!state.mens.csvUrl)state.mens.csvUrl=MENS_CSV;
   if(!state.womens.csvUrl)state.womens.csvUrl=WOMENS_CSV_PLACEHOLDER;
-  document.getElementById('csvUrlMens').value=state.mens.csvUrl;
-  document.getElementById('csvUrlWomens').value=state.womens.csvUrl||'';
 
   // Fetch both brackets in parallel
   await Promise.all([fetchBracket('mens'),fetchBracket('womens')]);
