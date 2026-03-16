@@ -1173,15 +1173,21 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{btn.addEventListener('click'
   if(!state.mens.csvUrl)state.mens.csvUrl=MENS_CSV;
   if(!state.womens.csvUrl)state.womens.csvUrl=WOMENS_CSV_PLACEHOLDER;
 
-  // Fetch both brackets in parallel
-  await Promise.all([fetchBracket('mens'),fetchBracket('womens')]);
-  saveState();
-
-  renderAll();showTrivia();updateCountdown();startAutoRefresh();
+  // Render immediately with cached data (or empty)
+  try { renderAll(); } catch(e) { console.warn('Initial render error:', e); }
+  showTrivia();updateCountdown();startAutoRefresh();
   setInterval(updateCountdown,1000);setInterval(nextTrivia,12000);
-  setTimeout(()=>document.getElementById('loadingOverlay').classList.add('hidden'),600);
+  
+  // Hide loading overlay right away
+  document.getElementById('loadingOverlay').classList.add('hidden');
+
+  // Then fetch fresh data in background
+  try {
+    await Promise.all([fetchBracket('mens'),fetchBracket('womens')]);
+    saveState();
+    renderAll();
+  } catch(e) { console.warn('Fetch error:', e); }
 })();
-setTimeout(()=>document.getElementById('loadingOverlay').classList.add('hidden'),12000);
 </script>
 </body>
 </html>
