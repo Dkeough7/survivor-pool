@@ -685,8 +685,6 @@ function renderTable(){
     body+='</tr>';}
   tbody.innerHTML=body||'<tr><td colspan="12" style="text-align:center;padding:40px;color:var(--text-muted)">No players loaded. Check connection.</td></tr>';
 }
-  tbody.innerHTML=body||'<tr><td colspan="12" style="text-align:center;padding:40px;color:var(--text-muted)">No players loaded. Check Admin tab.</td></tr>';
-}
 
 function filterTable(f,btn){currentFilter=f;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderTable();}
 document.getElementById('searchBox').addEventListener('input',renderTable);
