@@ -228,6 +228,29 @@
   .daily-no-pick{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:12px;box-shadow:var(--shadow-sm)}
   .daily-no-pick-header{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;color:var(--text-muted);margin-bottom:8px}
 
+  /* ─── MISSING PICKS ALERT ─── */
+  .missing-picks-alert{background:#fef3cd;border:1px solid #ffc107;border-radius:12px;padding:14px 20px;margin:12px 0;font-size:13px;color:#856404;line-height:1.5}
+  .missing-picks-alert strong{color:#664d03}
+  .missing-picks-names{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .missing-picks-names span{background:rgba(133,100,4,.08);padding:3px 10px;border-radius:6px;font-size:12px;font-weight:600}
+
+  /* ─── MINI SCHEDULE ─── */
+  .mini-schedule{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:12px 20px;margin:12px 0;display:flex;align-items:center;gap:16px;font-size:13px;color:var(--text-secondary);overflow-x:auto;box-shadow:var(--shadow-sm)}
+  .schedule-item{display:flex;align-items:center;gap:6px;white-space:nowrap;padding:4px 0}
+  .schedule-item.current{font-weight:700;color:var(--accent-orange)}
+  .schedule-item.completed{color:var(--text-muted);text-decoration:line-through}
+  .schedule-item.upcoming{color:var(--text-muted)}
+  .schedule-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+  .schedule-dot.current{background:var(--accent-orange);box-shadow:0 0 8px rgba(212,98,43,.4)}
+  .schedule-dot.completed{background:var(--accent-green)}
+  .schedule-dot.upcoming{background:var(--border-strong)}
+  .schedule-arrow{color:var(--border-strong);font-size:11px}
+
+  /* ─── COMMENTARY BAR ─── */
+  .commentary-bar{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:12px 20px;margin-bottom:16px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-sm);font-size:14px;color:var(--text-secondary);line-height:1.5}
+  .commentary-badge{background:var(--accent-red);color:#fff;padding:3px 10px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
+  .commentary-text{flex:1;font-style:italic}
+
   /* ─── MARQUEE TICKER ─── */
   .marquee-wrap{background:var(--dead-bg);border:1px solid var(--dead-border);border-radius:10px;padding:8px 0;margin:16px 0 0;overflow:hidden}
   .marquee-track{overflow:hidden;white-space:nowrap}
@@ -301,7 +324,12 @@
       <a href="https://docs.google.com/forms/d/e/1FAIpQLSeorZUve8hIa0cgj5LnNo4slcAhQEHsQIiOlRD2b2gWfLDDEw/viewform?usp=header" target="_blank" class="submit-pick-btn womens">🏀 Women's Pick</a>
     </div>
   </div>
-  </div>
+
+  <!-- MISSING PICKS ALERT -->
+  <div class="missing-picks-alert" id="missingPicksAlert" style="display:none"></div>
+
+  <!-- MINI SCHEDULE -->
+  <div class="mini-schedule" id="miniSchedule"></div>
 
   <!-- ELIMINATION TICKER -->
   <div class="marquee-wrap" id="marqueeWrap" style="display:none">
@@ -343,6 +371,12 @@
     <div class="stat-card eliminated"><div class="stat-value" id="statEliminated">--</div><div class="stat-label">Eliminated</div></div>
     <div class="stat-card pending"><div class="stat-value" id="statPending">--</div><div class="stat-label">Awaiting Result</div></div>
     <div class="stat-card"><div class="stat-value" id="statCurrentDay">--</div><div class="stat-label">Current Day</div></div>
+  </div>
+
+  <!-- ESPN-STYLE COMMENTARY -->
+  <div class="commentary-bar" id="commentaryBar" style="display:none">
+    <span class="commentary-badge">🎙️ ANALYST TAKE</span>
+    <span class="commentary-text" id="commentaryText"></span>
   </div>
 
   <!-- TABS -->
@@ -628,7 +662,7 @@ function nextTrivia(){triviaIdx=(triviaIdx+1)%TRIVIA.length;showTrivia();}
 function getDayDates(){return activeBracket==='mens'?DAY_DATES_M:DAY_DATES_W;}
 function getRoundLabels(){return ROUND_LABELS_M;} // same structure for both
 
-function renderAll(){renderStats();renderTable();renderCharts();renderSeedIntel();renderFacts();renderGames();renderGraveyard();renderBadges();renderH2HDropdowns();renderStreakTracker();renderDangerZone();renderMarquee();renderHallOfFame();renderDailySummary();updateTimestamp();updateCountdown();}
+function renderAll(){renderStats();renderTable();renderCharts();renderSeedIntel();renderFacts();renderGames();renderGraveyard();renderBadges();renderH2HDropdowns();renderStreakTracker();renderDangerZone();renderMarquee();renderHallOfFame();renderDailySummary();renderMissingPicks();renderMiniSchedule();renderCommentary();updateTimestamp();updateCountdown();}
 
 function updateTimestamp(){
   const el=document.getElementById('lastUpdated');const b=B();
@@ -1219,6 +1253,28 @@ function renderDailySummary(){
     <strong>${totalPicked}</strong> pick${totalPicked!==1?'s':''} submitted across <strong>${sorted.length}</strong> team${sorted.length!==1?'s':''}
   </div>`;
   
+  // ── BAR CHART: Pick Distribution ──
+  if(sorted.length>0){
+    const maxCount=sorted[0].players.length;
+    html+=`<div class="chart-card" style="margin-bottom:20px">
+      <h3>📊 Day ${selectedSummaryDay} | ${rounds[selectedSummaryDay-1]} — Pick Distribution</h3>
+      <div class="bar-chart">${sorted.map(g=>{
+        const tc=getTeamColor(g.team);
+        const barColor=tc?`background:linear-gradient(90deg,${tc[0]},${tc[0]}cc)`:'';
+        const resultIcon=g.result==='W'?' ✅':g.result==='L'?' ❌':'';
+        return `<div class="bar-row">
+          <div class="bar-label">${g.team}</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:${(g.players.length/maxCount)*100}%;${barColor||'background:linear-gradient(90deg,var(--accent-blue),#60a5fa)'}">${g.players.length}${resultIcon}</div>
+          </div>
+        </div>`;
+      }).join('')}</div>
+    </div>`;
+  }
+  
+  // ── DETAILED PLAYER CARDS ──
+  html+=`<h3 style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;margin-bottom:12px">👥 Detailed Breakdown</h3>`;
+  
   // Team groups
   for(const group of sorted){
     const pct=Math.round((group.players.length/players.length)*100);
@@ -1253,6 +1309,114 @@ function renderDailySummary(){
   }
   
   content.innerHTML=html||'<p style="color:var(--text-muted);text-align:center;padding:40px">No data for this day</p>';
+}
+
+// ═══════════════════════════════════════
+// MISSING PICKS ALERT
+// ═══════════════════════════════════════
+function renderMissingPicks(){
+  const el=document.getElementById('missingPicksAlert');
+  const players=B().players;const dk=`Day ${B().currentDay}`;
+  
+  // Only show for active (non-eliminated) players
+  const active=players.filter(p=>getPlayerStatus(p)!=='eliminated');
+  const missing=active.filter(p=>!p.picks[dk]);
+  
+  if(!missing.length||!players.length){el.style.display='none';return;}
+  
+  el.style.display='block';
+  el.innerHTML=`<strong>🔔 ${missing.length} player${missing.length!==1?'s':''} still need${missing.length===1?'s':''} to submit Day ${B().currentDay} picks!</strong>
+    <div class="missing-picks-names">${missing.slice(0,20).map(p=>`<span>${p.name}</span>`).join('')}${missing.length>20?`<span>+${missing.length-20} more</span>`:''}</div>`;
+}
+
+// ═══════════════════════════════════════
+// MINI SCHEDULE
+// ═══════════════════════════════════════
+function renderMiniSchedule(){
+  const el=document.getElementById('miniSchedule');
+  const dates=getDayDates();const rounds=getRoundLabels();
+  const cur=B().currentDay;
+  
+  // Determine which days have results
+  const daysWithResults=new Set();
+  for(const p of B().players)for(let d=1;d<=10;d++){const pk=p.picks[`Day ${d}`];if(pk&&pk.result)daysWithResults.add(d);}
+  
+  let html='<span style="font-weight:700;color:var(--text-primary);font-size:12px;letter-spacing:1px;text-transform:uppercase;white-space:nowrap">📅 Schedule</span>';
+  
+  // Show days 1 through 10 (or fewer if late rounds)
+  for(let d=1;d<=10;d++){
+    const isCompleted=daysWithResults.has(d)&&d<cur;
+    const isCurrent=d===cur;
+    const isUpcoming=d>cur;
+    const cls=isCurrent?'current':isCompleted?'completed':'upcoming';
+    
+    if(d>1) html+=`<span class="schedule-arrow">→</span>`;
+    html+=`<div class="schedule-item ${cls}"><span class="schedule-dot ${cls}"></span>${dates[d-1]}<br><span style="font-size:10px">${rounds[d-1]}</span></div>`;
+    
+    // Don't show too many future days
+    if(isUpcoming&&d>cur+2) break;
+  }
+  
+  el.innerHTML=html;
+}
+
+// ═══════════════════════════════════════
+// ESPN-STYLE AUTO COMMENTARY
+// ═══════════════════════════════════════
+function renderCommentary(){
+  const el=document.getElementById('commentaryBar');
+  const text=document.getElementById('commentaryText');
+  const players=B().players;const dk=`Day ${B().currentDay}`;
+  
+  if(!players.length){el.style.display='none';return;}
+  
+  // Gather data for commentary
+  const pickCounts={};
+  let totalPicks=0;
+  for(const p of players){const pk=p.picks[dk];if(pk){pickCounts[pk.team]=(pickCounts[pk.team]||0)+1;totalPicks++;}}
+  
+  const sorted=Object.entries(pickCounts).sort((a,b)=>b[1]-a[1]);
+  if(!sorted.length){el.style.display='none';return;}
+  
+  el.style.display='flex';
+  
+  const topTeam=sorted[0][0];const topCount=sorted[0][1];
+  const topPct=Math.round((topCount/players.length)*100);
+  const topSeed=topTeam.match(/#(\d+)/)?.[1]||'?';
+  const topName=topTeam.replace(/#\d+\s*/,'');
+  
+  // Find riskiest popular pick (most people on a high seed)
+  let riskiestPop=null;
+  for(const[team,count]of sorted){
+    const seed=parseInt(team.match(/#(\d+)/)?.[1]||'0');
+    if(seed>=8&&count>=2){riskiestPop={team,count,seed};break;}
+  }
+  
+  // Find lone wolves
+  const loners=sorted.filter(([,c])=>c===1);
+  
+  // Count eliminated
+  const eliminated=players.filter(p=>getPlayerStatus(p)==='eliminated').length;
+  const alive=players.filter(p=>getPlayerStatus(p)==='alive').length;
+  
+  // Generate commentary lines
+  const lines=[];
+  
+  if(topCount>=5) lines.push(`<strong>${topName}</strong> is the overwhelming chalk play today with <strong>${topCount} picks (${topPct}%)</strong> of the pool riding on the ${topSeed}-seed. The hive mind has spoken.`);
+  else if(topCount>=3) lines.push(`<strong>${topName}</strong> leads the pack today with <strong>${topCount} picks</strong> — but the field is spread wide. No consensus pick means high drama ahead.`);
+  else lines.push(`Today's picks are scattered across <strong>${sorted.length} different teams</strong>. This is anyone's day — pure madness.`);
+  
+  if(riskiestPop) lines.push(`Bold move alert: <strong>${riskiestPop.count} players</strong> are riding with ${riskiestPop.team} — a ${riskiestPop.seed}-seed that historically wins just ${SEED_WIN_RATES[riskiestPop.seed]||'??'}% of the time. Gutsy.`);
+  
+  if(loners.length>=3) lines.push(`We've got <strong>${loners.length} lone wolves</strong> today — players who went completely contrarian. High risk, high reward.`);
+  
+  if(eliminated>0&&alive>0) lines.push(`The field has been thinned to <strong>${alive} survivors</strong> after ${eliminated} elimination${eliminated>1?'s':''}. Every pick from here gets harder.`);
+  
+  if(totalPicks<players.length*0.5) lines.push(`⚠️ Only <strong>${totalPicks} of ${players.length}</strong> players have submitted picks. Clock is ticking, people!`);
+  
+  // Pick a random commentary line
+  const line=lines[Math.floor(Math.random()*lines.length)];
+  text.innerHTML=line;
 }
 
 // ═══════════════════════════════════════
