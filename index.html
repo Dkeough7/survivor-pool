@@ -208,6 +208,26 @@
   .badge-holder{font-size:12px;font-weight:700;color:var(--accent-orange);margin-top:8px}
   .badge-locked-label{font-size:11px;color:var(--text-muted);font-weight:600;margin-top:8px}
 
+  /* ─── DAILY SUMMARY ─── */
+  .day-selector-btn{padding:8px 16px;border:1px solid var(--border);border-radius:8px;background:var(--bg-card);font-family:'Barlow',sans-serif;font-size:12px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all .2s}
+  .day-selector-btn:hover{border-color:var(--accent-orange);color:var(--accent-orange)}
+  .day-selector-btn.active{background:var(--accent-orange);color:#fff;border-color:var(--accent-orange)}
+  .daily-team-group{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm);margin-bottom:12px}
+  .daily-team-header{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
+  .daily-team-header:hover{background:var(--bg-card-hover)}
+  .daily-team-name{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;display:flex;align-items:center;gap:10px}
+  .daily-team-count{font-size:13px;font-weight:700;color:var(--accent-orange);background:rgba(212,98,43,.08);padding:4px 12px;border-radius:100px}
+  .daily-team-result{padding:2px 10px;border-radius:6px;font-size:12px;font-weight:700;margin-left:8px}
+  .daily-team-result.win{background:var(--alive-bg);color:var(--accent-green);border:1px solid var(--alive-border)}
+  .daily-team-result.loss{background:var(--dead-bg);color:var(--accent-red);border:1px solid var(--dead-border)}
+  .daily-team-result.pending{background:var(--pending-bg);color:var(--accent-yellow);border:1px solid var(--pending-border)}
+  .daily-players-list{padding:12px 18px;display:flex;flex-wrap:wrap;gap:8px}
+  .daily-player-chip{padding:5px 12px;border-radius:8px;font-size:12px;font-weight:600;background:var(--bg);border:1px solid var(--border);color:var(--text-secondary)}
+  .daily-player-chip.alive{border-color:var(--alive-border);color:var(--accent-green)}
+  .daily-player-chip.eliminated{border-color:var(--dead-border);color:var(--accent-red);text-decoration:line-through;opacity:.5}
+  .daily-no-pick{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:12px;box-shadow:var(--shadow-sm)}
+  .daily-no-pick-header{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;color:var(--text-muted);margin-bottom:8px}
+
   /* ─── MARQUEE TICKER ─── */
   .marquee-wrap{background:var(--dead-bg);border:1px solid var(--dead-border);border-radius:10px;padding:8px 0;margin:16px 0 0;overflow:hidden}
   .marquee-track{overflow:hidden;white-space:nowrap}
@@ -328,6 +348,7 @@
   <!-- TABS -->
   <div class="tab-nav">
     <button class="tab-btn active" data-tab="picks">📋 Picks</button>
+    <button class="tab-btn" data-tab="daily">📅 Daily Summary</button>
     <button class="tab-btn" data-tab="games">🎰 Games</button>
     <button class="tab-btn" data-tab="charts">📊 Charts</button>
     <button class="tab-btn" data-tab="h2h">⚔️ H2H</button>
@@ -348,6 +369,15 @@
       <button class="filter-btn" onclick="filterTable('pending',this)">🟡 Pending</button>
     </div>
     <div class="picks-table-wrap"><table class="picks-table"><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
+  </div>
+
+  <!-- TAB: DAILY SUMMARY -->
+  <div class="tab-content" id="tab-daily">
+    <div style="text-align:center;margin-bottom:16px">
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px">📅 DAILY PICK SUMMARY</h2>
+      <div style="display:flex;justify-content:center;gap:6px;margin-top:12px;flex-wrap:wrap" id="daySelectorBtns"></div>
+    </div>
+    <div id="dailySummaryContent"></div>
   </div>
 
   <!-- TAB: GAMES -->
@@ -598,7 +628,7 @@ function nextTrivia(){triviaIdx=(triviaIdx+1)%TRIVIA.length;showTrivia();}
 function getDayDates(){return activeBracket==='mens'?DAY_DATES_M:DAY_DATES_W;}
 function getRoundLabels(){return ROUND_LABELS_M;} // same structure for both
 
-function renderAll(){renderStats();renderTable();renderCharts();renderSeedIntel();renderFacts();renderGames();renderGraveyard();renderBadges();renderH2HDropdowns();renderStreakTracker();renderDangerZone();renderMarquee();renderHallOfFame();updateTimestamp();updateCountdown();}
+function renderAll(){renderStats();renderTable();renderCharts();renderSeedIntel();renderFacts();renderGames();renderGraveyard();renderBadges();renderH2HDropdowns();renderStreakTracker();renderDangerZone();renderMarquee();renderHallOfFame();renderDailySummary();updateTimestamp();updateCountdown();}
 
 function updateTimestamp(){
   const el=document.getElementById('lastUpdated');const b=B();
@@ -1131,6 +1161,98 @@ function renderHallOfFame(){
   }
   
   c.innerHTML=html;
+}
+
+// ═══════════════════════════════════════
+// DAILY PICK SUMMARY
+// ═══════════════════════════════════════
+let selectedSummaryDay = null;
+
+function renderDailySummary(){
+  const players=B().players;
+  const dates=getDayDates();const rounds=getRoundLabels();
+  
+  // Determine which days have picks
+  let maxDay=B().currentDay;
+  for(const p of players)for(let d=1;d<=10;d++)if(p.picks[`Day ${d}`])maxDay=Math.max(maxDay,d);
+  
+  if(selectedSummaryDay===null) selectedSummaryDay=B().currentDay;
+  if(selectedSummaryDay>maxDay) selectedSummaryDay=maxDay;
+  
+  // Render day selector buttons
+  const btnContainer=document.getElementById('daySelectorBtns');
+  btnContainer.innerHTML='';
+  for(let d=1;d<=maxDay;d++){
+    const hasPicks=players.some(p=>p.picks[`Day ${d}`]);
+    if(!hasPicks&&d>B().currentDay) continue;
+    const btn=document.createElement('button');
+    btn.className=`day-selector-btn${d===selectedSummaryDay?' active':''}`;
+    btn.textContent=`Day ${d}`;
+    btn.title=`${dates[d-1]} · ${rounds[d-1]}`;
+    btn.onclick=()=>{selectedSummaryDay=d;renderDailySummary();};
+    btnContainer.appendChild(btn);
+  }
+  
+  const content=document.getElementById('dailySummaryContent');
+  const dk=`Day ${selectedSummaryDay}`;
+  
+  // Group picks by team
+  const teamGroups={};
+  const noPick=[];
+  
+  for(const p of players){
+    const pk=p.picks[dk];
+    if(!pk){noPick.push(p);continue;}
+    const key=pk.team;
+    if(!teamGroups[key]) teamGroups[key]={team:pk.team,result:pk.result,players:[]};
+    teamGroups[key].players.push(p);
+    // Use most definitive result (W or L overrides null)
+    if(pk.result) teamGroups[key].result=pk.result;
+  }
+  
+  // Sort: most popular teams first
+  const sorted=Object.values(teamGroups).sort((a,b)=>b.players.length-a.players.length);
+  const totalPicked=sorted.reduce((s,g)=>s+g.players.length,0);
+  
+  let html=`<div style="text-align:center;margin-bottom:16px;color:var(--text-secondary);font-size:14px">
+    <strong>${dates[selectedSummaryDay-1]}</strong> · ${rounds[selectedSummaryDay-1]} · 
+    <strong>${totalPicked}</strong> pick${totalPicked!==1?'s':''} submitted across <strong>${sorted.length}</strong> team${sorted.length!==1?'s':''}
+  </div>`;
+  
+  // Team groups
+  for(const group of sorted){
+    const pct=Math.round((group.players.length/players.length)*100);
+    const resultTag=group.result==='W'?'<span class="daily-team-result win">✅ WIN</span>':
+                    group.result==='L'?'<span class="daily-team-result loss">❌ LOSS</span>':
+                    '<span class="daily-team-result pending">⏳ Pending</span>';
+    const tc=getTeamColor(group.team);
+    const borderStyle=tc?`style="border-left:4px solid ${tc[0]}"`:'';
+    
+    html+=`<div class="daily-team-group" ${borderStyle}>
+      <div class="daily-team-header">
+        <div class="daily-team-name">${group.team} ${resultTag}</div>
+        <div class="daily-team-count">${group.players.length} player${group.players.length!==1?'s':''} · ${pct}%</div>
+      </div>
+      <div class="daily-players-list">
+        ${group.players.map(p=>{
+          const status=getPlayerStatus(p);
+          return `<span class="daily-player-chip ${status}">${p.name}${status==='eliminated'?' 💀':''}</span>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }
+  
+  // Players with no pick
+  if(noPick.length>0){
+    html+=`<div class="daily-no-pick">
+      <div class="daily-no-pick-header">⚠️ No Pick Submitted (${noPick.length})</div>
+      <div class="daily-players-list">
+        ${noPick.map(p=>`<span class="daily-player-chip" style="opacity:.5">${p.name}</span>`).join('')}
+      </div>
+    </div>`;
+  }
+  
+  content.innerHTML=html||'<p style="color:var(--text-muted);text-align:center;padding:40px">No data for this day</p>';
 }
 
 // ═══════════════════════════════════════
