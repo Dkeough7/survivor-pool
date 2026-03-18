@@ -20,8 +20,9 @@
   .last-updated{margin-top:4px;font-size:11px;color:var(--text-muted)}
 
   /* ─── JERSEY AVATARS ─── */
-  .jersey{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.5px;color:#fff;font-weight:700;flex-shrink:0;position:relative;box-shadow:0 1px 3px rgba(0,0,0,.12)}
-  .jersey-sm{width:24px;height:24px;font-size:11px;border-radius:6px}
+  .jersey{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;flex-shrink:0;position:relative}
+  .jersey svg{width:100%;height:100%}
+  .jersey-sm{width:24px;height:24px}
   .player-with-jersey{display:flex;align-items:center;gap:8px}
   .refresh-btn{padding:8px 20px;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;font-family:'Barlow',sans-serif;font-size:13px;font-weight:600;color:var(--text-secondary);cursor:pointer;transition:all .2s;box-shadow:var(--shadow-sm)}
   .refresh-btn:hover{border-color:var(--accent-orange);color:var(--accent-orange);box-shadow:var(--shadow-md);transform:translateY(-1px)}
@@ -724,12 +725,16 @@ function getTeamColor(teamStr){
 const JERSEY_COLORS=['#d4622b','#2563eb','#16a34a','#dc2626','#7c3aed','#0891b2','#c026d3','#ea580c','#4f46e5','#059669','#be123c','#7c2d12','#1d4ed8','#15803d','#9333ea','#b91c1c','#0d9488','#6d28d9','#ca8a04','#334155'];
 
 function getJersey(name, size=''){
-  // Generate consistent number and color from name
   const hash=name.split('').reduce((a,c)=>((a<<5)-a)+c.charCodeAt(0),0);
   const num=Math.abs(hash%99)+1;
   const color=JERSEY_COLORS[Math.abs(hash)%JERSEY_COLORS.length];
   const cls=size==='sm'?'jersey jersey-sm':'jersey';
-  return `<div class="${cls}" style="background:${color}" title="${name}">${num}</div>`;
+  const fontSize=size==='sm'?'8':'11';
+  return `<div class="${cls}" title="${name}"><svg viewBox="0 0 40 44" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8 0 L0 10 L0 16 L6 14 L6 42 Q6 44 8 44 L32 44 Q34 44 34 42 L34 14 L40 16 L40 10 L32 0 L24 4 Q20 6 16 4 Z" fill="${color}"/>
+    <path d="M8 0 L0 10 L0 16 L6 14 L6 8 L16 4 Q20 6 24 4 L34 8 L34 14 L40 16 L40 10 L32 0 L24 4 Q20 6 16 4 Z" fill="rgba(255,255,255,.15)"/>
+    <text x="20" y="30" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="${fontSize}" font-weight="900" fill="#fff" stroke="rgba(0,0,0,.2)" stroke-width=".5">${num}</text>
+  </svg></div>`;
 }
 
 function playerWithJersey(name){
