@@ -10,14 +10,19 @@
   *{margin:0;padding:0;box-sizing:border-box}
   body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text-primary);min-height:100vh}
   .container{max-width:1400px;margin:0 auto;padding:0 24px}
-  .hero{padding:40px 0 12px;text-align:center}
-  .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(212,98,43,.08);border:1px solid rgba(212,98,43,.2);padding:5px 14px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-orange);margin-bottom:12px}
-  .hero-badge .pulse{width:7px;height:7px;background:var(--accent-green);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+  .hero{padding:16px 0 6px;text-align:center}
+  .hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(212,98,43,.08);border:1px solid rgba(212,98,43,.2);padding:4px 12px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-orange);margin-bottom:6px}
+  .hero-badge .pulse{width:6px;height:6px;background:var(--accent-green);border-radius:50%;animation:pulse 2s ease-in-out infinite}
   @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.4)}}
-  .hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(42px,7vw,80px);line-height:.9;letter-spacing:2px;color:var(--text-primary);margin-bottom:6px}
+  .hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(26px,4.5vw,48px);line-height:1;letter-spacing:3px;color:var(--text-primary);margin-bottom:2px}
   .hero h1 span{color:var(--accent-orange)}
-  .hero-sub{font-family:'Barlow Condensed',sans-serif;font-size:16px;color:var(--text-muted);letter-spacing:3px;text-transform:uppercase}
-  .last-updated{margin-top:8px;font-size:12px;color:var(--text-muted)}
+  .hero-sub{font-family:'Barlow Condensed',sans-serif;font-size:13px;color:var(--text-muted);letter-spacing:3px;text-transform:uppercase}
+  .last-updated{margin-top:4px;font-size:11px;color:var(--text-muted)}
+
+  /* ─── JERSEY AVATARS ─── */
+  .jersey{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.5px;color:#fff;font-weight:700;flex-shrink:0;position:relative;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+  .jersey-sm{width:24px;height:24px;font-size:11px;border-radius:6px}
+  .player-with-jersey{display:flex;align-items:center;gap:8px}
   .refresh-btn{padding:8px 20px;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;font-family:'Barlow',sans-serif;font-size:13px;font-weight:600;color:var(--text-secondary);cursor:pointer;transition:all .2s;box-shadow:var(--shadow-sm)}
   .refresh-btn:hover{border-color:var(--accent-orange);color:var(--accent-orange);box-shadow:var(--shadow-md);transform:translateY(-1px)}
   .refresh-btn.spinning{pointer-events:none;opacity:.6}
@@ -307,7 +312,7 @@
 <div class="container">
   <div class="hero">
     <div class="hero-badge"><div class="pulse"></div> LIVE TRACKER</div>
-    <h1>MARCH MADNESS<br><span>SURVIVOR POOL</span></h1>
+    <h1>MARCH MADNESS <span>SURVIVOR POOL</span></h1>
     <div class="hero-sub">2026 NCAA Tournament</div>
     <div class="last-updated" id="lastUpdated"></div>
     <div class="refresh-row">
@@ -711,9 +716,24 @@ const TEAM_COLORS={
 };
 
 function getTeamColor(teamStr){
-  // Extract team name from "#1 Duke" format
   const name=teamStr.replace(/#\d+\s*/,'').trim();
   return TEAM_COLORS[name]||null;
+}
+
+// Generate a consistent jersey avatar for a player name
+const JERSEY_COLORS=['#d4622b','#2563eb','#16a34a','#dc2626','#7c3aed','#0891b2','#c026d3','#ea580c','#4f46e5','#059669','#be123c','#7c2d12','#1d4ed8','#15803d','#9333ea','#b91c1c','#0d9488','#6d28d9','#ca8a04','#334155'];
+
+function getJersey(name, size=''){
+  // Generate consistent number and color from name
+  const hash=name.split('').reduce((a,c)=>((a<<5)-a)+c.charCodeAt(0),0);
+  const num=Math.abs(hash%99)+1;
+  const color=JERSEY_COLORS[Math.abs(hash)%JERSEY_COLORS.length];
+  const cls=size==='sm'?'jersey jersey-sm':'jersey';
+  return `<div class="${cls}" style="background:${color}" title="${name}">${num}</div>`;
+}
+
+function playerWithJersey(name){
+  return `<div class="player-with-jersey">${getJersey(name)}${name}</div>`;
 }
 
 function renderTable(){
@@ -730,7 +750,7 @@ function renderTable(){
   for(const p of sorted){
     if(search&&!p.name.toLowerCase().includes(search))continue;
     const status=getPlayerStatus(p);if(currentFilter!=='all'&&status!==currentFilter)continue;
-    body+=`<tr class="${status==='eliminated'?'eliminated':''}"><td>${p.name}</td><td><span class="status-badge ${status}"><span class="status-dot ${status}"></span>${status}</span></td>`;
+    body+=`<tr class="${status==='eliminated'?'eliminated':''}"><td>${playerWithJersey(p.name)}</td><td><span class="status-badge ${status}"><span class="status-dot ${status}"></span>${status}</span></td>`;
     for(let d=1;d<=maxDay;d++){
       const pk=p.picks[`Day ${d}`];
       if(!pk){body+='<td><span class="pick-cell none">—</span></td>';}
@@ -933,7 +953,7 @@ function renderGraveyard(){
     
     return `<div class="tombstone">
       <div class="tombstone-skull">🪦</div>
-      <div class="tombstone-name">${p.name}</div>
+      <div class="tombstone-name" style="display:flex;align-items:center;justify-content:center;gap:8px">${getJersey(p.name)}${p.name}</div>
       <div class="tombstone-dates">Survived ${survived} day${survived!==1?'s':''}</div>
       ${losingPick?`<div class="tombstone-cause">☠️ Killed by: ${losingPick.team} (${losingDay})</div>`:''}
       <div class="tombstone-epitaph">"${epitaph}"</div>
@@ -1080,7 +1100,7 @@ function renderStreakTracker(){
   }).filter(p=>p.results.length>0).sort((a,b)=>b.streak-a.streak||a.avgSeed-b.avgSeed);
 
   c.innerHTML=playerStreaks.length?playerStreaks.map(p=>`<div class="streak-row">
-    <div class="streak-name">${p.name} ${p.status==='eliminated'?'💀':''}</div>
+    <div class="streak-name" style="display:flex;align-items:center;gap:6px">${getJersey(p.name,'sm')}${p.name} ${p.status==='eliminated'?'💀':''}</div>
     <div class="streak-dots">${p.results.map(r=>`<div class="streak-dot ${r}">${r==='w'?'W':r==='l'?'L':'?'}</div>`).join('')}</div>
     <div class="streak-info">${p.streak>0?`🔥 ${p.streak} win${p.streak>1?'s':''}`:p.status==='eliminated'?'☠️ Out':'⏳'}</div>
   </div>`).join(''):'<p style="color:var(--text-muted);text-align:center;padding:20px">No results yet</p>';
@@ -1292,7 +1312,7 @@ function renderDailySummary(){
       <div class="daily-players-list">
         ${group.players.map(p=>{
           const status=getPlayerStatus(p);
-          return `<span class="daily-player-chip ${status}">${p.name}${status==='eliminated'?' 💀':''}</span>`;
+          return `<span class="daily-player-chip ${status}" style="display:inline-flex;align-items:center;gap:5px">${getJersey(p.name,'sm')}${p.name}${status==='eliminated'?' 💀':''}</span>`;
         }).join('')}
       </div>
     </div>`;
