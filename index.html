@@ -108,7 +108,7 @@
   .pick-cell{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:6px;font-size:12px;font-weight:600}
   .pick-cell.win{background:var(--alive-bg);color:var(--accent-green);border:1px solid var(--alive-border)}
   .pick-cell.loss{background:var(--dead-bg);color:var(--accent-red);border:1px solid var(--dead-border);text-decoration:line-through}
-  .pick-cell.pending{background:var(--pending-bg);color:var(--accent-yellow);border:1px solid var(--pending-border)}
+  .pick-cell.pending{background:#fef9c3;color:#a16207;border:2px solid #fde047;font-weight:700}
   .pick-cell.none{color:var(--text-muted);font-style:italic;font-weight:400}
   .status-badge{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
   .status-badge.alive{background:var(--alive-bg);color:var(--accent-green);border:1px solid var(--alive-border)}
@@ -816,10 +816,10 @@ function renderTable(){
         if(pk.result==='W'){cls='win';ic='✅';}
         else if(pk.result==='L'){cls='loss';ic='❌';}
         else{cls='pending';ic='⏳';}
+        // Only apply team color accent to wins — pending stays yellow, loss stays red
         const tc=getTeamColor(pk.team);
-        const colorStyle=tc&&cls==='pending'?`style="background:${tc[0]}11;border-color:${tc[0]}33;color:${tc[0]}"`:
-                         tc&&cls==='win'?`style="border-left:3px solid ${tc[0]}"`:
-                         tc&&cls==='loss'?`style="border-left:3px solid ${tc[0]};opacity:.7"`:''
+        const colorStyle=tc&&cls==='win'?`style="border-left:3px solid ${tc[0]}"`:
+                         tc&&cls==='loss'?`style="border-left:3px solid ${tc[0]}"`:''
         body+=`<td><span class="pick-cell ${cls}" ${colorStyle}>${ic} ${pk.team}</span></td>`;
       }
     }
